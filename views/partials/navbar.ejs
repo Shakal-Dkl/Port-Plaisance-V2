@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="<%= user ? '/dashboard' : '/' %>">
+      <i class="bi bi-water"></i> Port de Plaisance
+    </a>
+    <% if (user) { %>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard"><i class="bi bi-speedometer2"></i> Tableau de bord</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard/catways"><i class="bi bi-list"></i> Catways</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard/reservations"><i class="bi bi-calendar-check"></i> Réservations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard/documentation"><i class="bi bi-book"></i> Documentation</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle"></i> <%= user.name %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item text-danger" href="/auth/logout"><i class="bi bi-box-arrow-right"></i> Déconnexion</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    <% } %>
+  </div>
+</nav>

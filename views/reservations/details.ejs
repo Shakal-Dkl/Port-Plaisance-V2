@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-4">
+    <%- include('../partials/messages') %>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1><i class="bi bi-calendar-check"></i> <%= title %></h1>
+      <a href="/dashboard/reservations" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour à la liste
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <h4 class="mb-0">Réservation - <%= reservation.clientName %></h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <dl class="row">
+              <dt class="col-sm-4">Catway :</dt>
+              <dd class="col-sm-8"><strong><%= reservation.catwayNumber %></strong></dd>
+              
+              <dt class="col-sm-4">Client :</dt>
+              <dd class="col-sm-8"><%= reservation.clientName %></dd>
+              
+              <dt class="col-sm-4">Bateau :</dt>
+              <dd class="col-sm-8"><%= reservation.boatName %></dd>
+            </dl>
+          </div>
+          <div class="col-md-6">
+            <dl class="row">
+              <dt class="col-sm-4">Arrivée :</dt>
+              <dd class="col-sm-8"><%= new Date(reservation.checkIn).toLocaleDateString('fr-FR') %></dd>
+              
+              <dt class="col-sm-4">Départ :</dt>
+              <dd class="col-sm-8"><%= new Date(reservation.checkOut).toLocaleDateString('fr-FR') %></dd>
+              
+              <dt class="col-sm-4">Créée le :</dt>
+              <dd class="col-sm-8"><%= new Date(reservation.createdAt).toLocaleString('fr-FR') %></dd>
+              
+              <dt class="col-sm-4">ID :</dt>
+              <dd class="col-sm-8"><code><%= reservation._id %></code></dd>
+            </dl>
+          </div>
+        </div>
+        
+        <% 
+          const checkInDate = new Date(reservation.checkIn);
+          const checkOutDate = new Date(reservation.checkOut);
+          const duration = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+        %>
+        <div class="alert alert-info mt-3">
+          <i class="bi bi-info-circle"></i> Durée de séjour : <strong><%= duration %> jour<%= duration > 1 ? 's' : '' %></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
