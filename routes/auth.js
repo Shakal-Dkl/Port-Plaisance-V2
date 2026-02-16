@@ -15,9 +15,14 @@ router.post('/login', async (req, res) => {
   try {
     // Récupérer les données du formulaire
     const { email, password } = req.body;
+    const normalizedEmail = (email || '').trim().toLowerCase();
+
+    if (!normalizedEmail || !password) {
+      return res.redirect('/?error=credentials');
+    }
 
     // Rechercher l'utilisateur via le service
-    const user = await userService.getUserByEmail(email);
+    const user = await userService.getUserByEmail(normalizedEmail);
     if (!user) {
       return res.redirect('/?error=credentials');
     }
@@ -35,8 +40,14 @@ router.post('/login', async (req, res) => {
       email: user.email
     };
 
-    // Rediriger vers le tableau de bord
-    res.redirect('/dashboard');
+    // Sauvegarder la session avant la redirection
+    req.session.save((saveError) => {
+      if (saveError) {
+        console.error(saveError);
+        return res.redirect('/?error=server');
+      }
+      res.redirect('/dashboard');
+    });
   } catch (error) {
     console.error(error);
     res.redirect('/?error=server');

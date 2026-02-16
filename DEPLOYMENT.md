@@ -78,8 +78,12 @@ git push -u origin main
      
      Clé: NODE_ENV
      Valeur: production
+
+       Clé: SESSION_SECRET
+       Valeur: une_longue_valeur_aleatoire_tres_securisee
      ```
    - ⚠️ Copiez votre vraie URI MongoDB depuis votre fichier `.env`
+    - ⚠️ `SESSION_SECRET` doit être différent entre projets et rester confidentiel
 
 5. **Cliquer sur "Create Web Service"**
    - Render va :
@@ -92,6 +96,21 @@ git push -u origin main
    ```
    https://port-plaisance.onrender.com
    ```
+
+### Étape 4 : Initialiser les données de production (compte admin)
+
+Après le premier déploiement, créez le compte admin dans la base MongoDB de production :
+
+```bash
+# En local, avec MONGODB_URI pointant vers votre base Atlas de production
+npm run seed
+```
+
+Compte créé par le script :
+- Email : `admin@port.com`
+- Mot de passe : `admin123`
+
+⚠️ Changez ce mot de passe après la première connexion.
 
 ## ⚙️ Configuration MongoDB Atlas pour Render
 
@@ -124,6 +143,11 @@ Render détecte le push et redéploie en quelques minutes.
 ### Erreur : "MongoNetworkError"
 - Vérifiez que MongoDB Atlas autorise l'IP 0.0.0.0/0 (tous les IPs)
 - Allez dans MongoDB Atlas → Network Access
+
+### Erreur : impossible de se connecter
+- Vérifiez qu'un utilisateur existe dans la base de production (lancer `npm run seed` une fois)
+- Vérifiez que l'URI `MONGODB_URI` Render pointe vers la bonne base (pas la base locale)
+- Vérifiez que `SESSION_SECRET` est bien défini dans Render
 
 ### Le site est lent au premier chargement
 - Normal avec le plan gratuit : Render met le service en veille après 15 minutes d'inactivité

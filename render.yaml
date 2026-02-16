@@ -16,3 +16,5 @@ services:
         value: 10000
       - key: MONGODB_URI
         sync: false  # À configurer manuellement dans Render Dashboard
+      - key: SESSION_SECRET
+        sync: false  # À configurer manuellement dans Render Dashboard

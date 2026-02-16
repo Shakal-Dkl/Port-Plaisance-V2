@@ -43,11 +43,23 @@ app.use(express.json());
 // Permettre d'accéder aux fichiers CSS et JS dans le dossier "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Important en production derrière un proxy (Render)
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // Configuration des sessions (pour savoir qui est connecté)
 app.use(session({
-  secret: 'mon_secret_123',  // Clé secrète pour sécuriser les sessions
+  secret: process.env.SESSION_SECRET || 'mon_secret_123',  // Clé secrète pour sécuriser les sessions
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  proxy: process.env.NODE_ENV === 'production',
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 // 24h
+  }
 }));
 
 // Rendre la variable 'user' disponible dans toutes les vues
