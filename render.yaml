@@ -1,0 +1,18 @@
+# Configuration pour le déploiement sur Render.com
+# Ce fichier permet de configurer automatiquement le service
+
+services:
+  - type: web
+    name: port-plaisance
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false  # À configurer manuellement dans Render Dashboard

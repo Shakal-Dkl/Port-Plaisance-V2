@@ -1,0 +1,33 @@
+{
+  "name": "port-plaisance",
+  "version": "1.0.0",
+  "description": "Application de gestion de port de plaisance avec catways et réservations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node seed.js",
+    "test": "mocha tests/**/*.test.js --exit --timeout 10000"
+  },
+  "keywords": [
+    "port",
+    "catway",
+    "reservation",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5",
+    "nodemon": "^3.0.1"
+  }
+}
