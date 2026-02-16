@@ -16,6 +16,7 @@ require('dotenv').config();
 const express = require('express');  // Framework web
 const mongoose = require('mongoose'); // Pour se connecter à MongoDB
 const session = require('express-session'); // Pour gérer les sessions (connexion utilisateur)
+const MongoStore = require('connect-mongo'); // Store de session MongoDB (production)
 const path = require('path'); // Pour gérer les chemins de fichiers
 
 // 3. Créer l'application Express
@@ -53,6 +54,11 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'mon_secret_123',  // Clé secrète pour sécuriser les sessions
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    collectionName: 'sessions',
+    ttl: 60 * 60 * 24
+  }),
   proxy: process.env.NODE_ENV === 'production',
   cookie: {
     httpOnly: true,
